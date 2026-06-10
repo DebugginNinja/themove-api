@@ -3,9 +3,12 @@
 /Users/abdulhamid/Downloads/themove-api/src/main/java/com/themove/config/SecurityConfig.java
 /Users/abdulhamid/Downloads/themove-api/src/main/java/com/themove/controller/AuthController.java
 /Users/abdulhamid/Downloads/themove-api/src/main/java/com/themove/controller/TestController.java
+/Users/abdulhamid/Downloads/themove-api/src/main/java/com/themove/controller/UserController.java
 /Users/abdulhamid/Downloads/themove-api/src/main/java/com/themove/dto/auth/LoginRequest.java
 /Users/abdulhamid/Downloads/themove-api/src/main/java/com/themove/dto/auth/RegisterRequest.java
+/Users/abdulhamid/Downloads/themove-api/src/main/java/com/themove/dto/auth/UpdateUserRequest.java
 /Users/abdulhamid/Downloads/themove-api/src/main/java/com/themove/dto/response/AuthResponse.java
+/Users/abdulhamid/Downloads/themove-api/src/main/java/com/themove/dto/response/UserResponse.java
 /Users/abdulhamid/Downloads/themove-api/src/main/java/com/themove/model/RefreshToken.java
 /Users/abdulhamid/Downloads/themove-api/src/main/java/com/themove/model/User.java
 /Users/abdulhamid/Downloads/themove-api/src/main/java/com/themove/repository/RefreshTokenRepository.java

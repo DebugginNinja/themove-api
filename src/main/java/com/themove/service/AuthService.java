@@ -52,4 +52,12 @@ public class AuthService {
 
         return jwtService.generateToken(user.getEmail());
     }
+    public User getUserByEmail(String email) {
+    return userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+}
+
+    public void save(User user) {
+        userRepository.save(user);
+    }   
 }
