@@ -1,10 +1,20 @@
 package com.themove.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.themove.dto.post.PostRequest;
+import com.themove.dto.post.PostResponse;
+
+import java.util.List;
 
 public interface PostService {
 
-    Object createPost(PostRequest request);
+    PostResponse createPost(PostRequest request);
 
-    Object getPostById(Long id);
+    PostResponse getPostById(Long id);
+
+
+
+Page<PostResponse> getFeed(Pageable pageable);
 }
