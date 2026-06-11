@@ -1,0 +1,4 @@
+2026-06-10 19:00:53.825096-04:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT ID, USERNAME, EMAIL \000d\000a[*]10FROM USERS"; SQL statement:
+SELECT ID, USERNAME, EMAIL 
+10FROM USERS [42000-224]

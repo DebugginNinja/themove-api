@@ -1,5 +1,8 @@
 package com.themove.service;
-
+import com.themove.model.User;
+import com.themove.service.AuthService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import com.themove.dto.auth.LoginRequest;
 import com.themove.dto.auth.RegisterRequest;
 import com.themove.model.User;
