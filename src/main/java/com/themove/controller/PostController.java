@@ -1,7 +1,9 @@
 package com.themove.controller;
 
+
 import com.themove.dto.post.PostRequest;
 import com.themove.dto.response.ApiResponse;
+import com.themove.service.LikeService;
 import com.themove.service.PostService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,10 +15,13 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
 
     private final PostService postService;
+    private final LikeService likeService;
 
-    public PostController(PostService postService) {
-        this.postService = postService;
-    }
+        public PostController(PostService postService,
+                                  LikeService likeService) {
+                this.postService = postService;
+                this.likeService = likeService;
+        }
 
     @PostMapping
     public ResponseEntity<ApiResponse<?>> createPost(@RequestBody PostRequest request) {
@@ -56,4 +61,23 @@ public class PostController {
                 )
         );
     }
+
+    @PostMapping("/{postId}/like")
+public ResponseEntity<String> likePost(@PathVariable Long postId) {
+    likeService.likePost(postId);
+    return ResponseEntity.ok("Post liked");
+}
+
+        @DeleteMapping("/{postId}/like")
+        public ResponseEntity<String> unlikePost(@PathVariable Long postId) {
+                likeService.unlikePost(postId);
+                return ResponseEntity.ok("Post unliked");
+        }
+        
+        @GetMapping("/{postId}/likes")
+        public ResponseEntity<Long> countLikes(@PathVariable Long postId) {
+                long likeCount = likeService.countLikes(postId);
+                return ResponseEntity.ok(likeCount);
+        }       
+
 }

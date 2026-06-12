@@ -12,13 +12,16 @@ public class User {
 
     private String username;
 
+    private String bio;
+
+    private String profileImageUrl;
+
+    private String displayName;
+
     @Column(unique = true)
     private String email;
 
     private String password;
-
-    private String bio;
-
     private String location;
 
     public User() {
@@ -32,16 +35,24 @@ public class User {
         return username;
     }
 
+    public String getBio() {
+        return bio;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public String getPassword() {
         return password;
-    }
-
-    public String getBio() {
-        return bio;
     }
 
     public String getLocation() {
@@ -56,16 +67,24 @@ public class User {
         this.username = username;
     }
 
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
     }
 
     public void setLocation(String location) {

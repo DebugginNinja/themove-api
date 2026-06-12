@@ -1,10 +1,12 @@
 package com.themove.controller;
 
-import com.themove.dto.auth.UpdateUserRequest;
-import com.themove.dto.response.UserResponse;
+import com.themove.dto.UpdateProfileRequest;
+import com.themove.dto.UserProfileDto;
+import com.themove.mapper.UserMapper;
 import com.themove.model.User;
+import com.themove.repository.UserRepository;
 import com.themove.service.AuthService;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,56 +14,58 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final AuthService authService;
+    private final UserRepository userRepository;
 
-    public UserController(AuthService authService) {
+    public UserController(AuthService authService,
+        UserRepository userRepository) {
         this.authService = authService;
+        this.userRepository = userRepository;
     }
 
-    // GET current user
+    // GET CURRENT USER PROFILE
     @GetMapping("/me")
-    public UserResponse me() {
-        String email = (String) SecurityContextHolder.getContext()
-                .getAuthentication()
-                .getPrincipal();
+    public ResponseEntity<UserProfileDto> getMe() {
 
-        User user = authService.getUserByEmail(email);
+        User user = authService.getCurrentUser();
 
-        return new UserResponse(
-                user.getId(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getBio(),
-                user.getLocation()
-        );
+        return ResponseEntity.ok(UserMapper.toDto(user));
     }
 
-    // UPDATE current user
-    @PutMapping("/me")
-    public UserResponse update(@RequestBody UpdateUserRequest request) {
+    // GET USER BY ID (public profile)
+    @GetMapping("/{id}")
+    public ResponseEntity<UserProfileDto> getUserById(@PathVariable Long id) {
 
-        String email = (String) SecurityContextHolder.getContext()
-                .getAuthentication()
-                .getPrincipal();
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        User user = authService.getUserByEmail(email);
+        return ResponseEntity.ok(UserMapper.toDto(user));
+    }
 
-        if (request.getUsername() != null)
+    // UPDATE PROFILE
+    @PutMapping("/profile")
+    public ResponseEntity<UserProfileDto> updateProfile(
+            @RequestBody UpdateProfileRequest request) {
+
+        User user = authService.getCurrentUser();
+
+        if (request.getUsername() != null) {
             user.setUsername(request.getUsername());
+        }
 
-        if (request.getBio() != null)
+        if (request.getDisplayName() != null) {
+            user.setDisplayName(request.getDisplayName());
+        }
+
+        if (request.getBio() != null) {
             user.setBio(request.getBio());
+        }
 
-        if (request.getLocation() != null)
-            user.setLocation(request.getLocation());
+        if (request.getProfileImageUrl() != null) {
+            user.setProfileImageUrl(request.getProfileImageUrl());
+        }
 
-        authService.save(user);
+        userRepository.save(user);
 
-        return new UserResponse(
-                user.getId(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getBio(),
-                user.getLocation()
-        );
+        return ResponseEntity.ok(UserMapper.toDto(user));
     }
 }

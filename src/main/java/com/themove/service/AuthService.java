@@ -19,12 +19,12 @@ public class AuthService {
     private final JwtService jwtService;
 
     public AuthService(UserRepository userRepository,
-                       PasswordEncoder passwordEncoder,
-                       JwtService jwtService) {
+        PasswordEncoder passwordEncoder,
+        JwtService jwtService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
-    }
+        }
 
     // REGISTER
     public String register(RegisterRequest request) {
@@ -55,6 +55,21 @@ public class AuthService {
 
         return jwtService.generateToken(user.getEmail());
     }
+    public User getCurrentUser() {
+
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+    if (authentication == null || !authentication.isAuthenticated()) {
+        throw new RuntimeException("No authenticated user found");
+    }
+
+    String email = authentication.getName();
+
+    return userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+}
+
+
     public User getUserByEmail(String email) {
     return userRepository.findByEmail(email)
             .orElseThrow(() -> new RuntimeException("User not found"));
